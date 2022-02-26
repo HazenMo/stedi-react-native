@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import React, {useState} from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity,SafeAreaView, TextInput } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Counter from './Counter.js';
@@ -11,10 +11,18 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import UselessTextInput from "./LoginPage.js";
 
 
+function login() {
+  setUserLoggedIn([true, userLoggedIn])
+}
+
 // import Icons from "./Icons";
 const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
+
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+
+  if(userLoggedIn) {
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -52,22 +60,16 @@ export default function App() {
             ),
           }}
         />
-        <Tab.Screen
-          name='Login'
-          component={UselessTextInput}
-          options={{
-            tabBarLabel: 'Login',
-            tabBarIcon: ({ color }) => (
-              <FontAwesome name='gear' color={color} size={26} />
-            ),
-          }}
-        />
       </Tab.Navigator>
     </NavigationContainer>
   );
+  } 
 
+  else {
+    return (<UselessTextInput/>)
+  }
 
-}
+} 
 
 
 const styles = StyleSheet.create({
