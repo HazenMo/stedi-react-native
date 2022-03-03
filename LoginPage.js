@@ -2,7 +2,8 @@ import React from "react";
 import { SafeAreaView, StyleSheet, TextInput, Button } from "react-native";
 import {login} from "./App.js";
 
-const UselessTextInput = () => {
+
+export default function UselessTextInput(props) {
   const [number1, onChangeNumber1] = React.useState(null);
   const [number2, onChangeNumber2] = React.useState(null);
 
@@ -16,6 +17,11 @@ const UselessTextInput = () => {
         placeholder="Phone Number1"
         keyboardType="numeric"
       />
+      <Button
+        onPress={()=>sendCode(number1)}
+        title="Send One Time Code"
+        color="green"
+      />
       <TextInput
         style={styles.input}
         onChangeText={onChangeNumber2}
@@ -24,7 +30,7 @@ const UselessTextInput = () => {
         keyboardType="text"
       />
       <Button
-        onPress={login()}
+        onPress={()=>props.setUserLoggedIn(true)}
         title="Login"
         color="green"
       />
@@ -42,4 +48,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UselessTextInput;
+function sendCode(phoneNumber) {
+fetch(('https://dev.stedi.me/twofactorlogin/' + phoneNumber), {
+  method: 'POST'
+});
+}
+
+
