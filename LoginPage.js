@@ -30,7 +30,7 @@ export default function UselessTextInput(props) {
         keyboardType="text"
       />
       <Button
-        onPress={()=>props.setUserLoggedIn(true)}
+        onPress={()=>checkCode(number1, number2, props)}
         title="Login"
         color="green"
       />
@@ -49,9 +49,20 @@ const styles = StyleSheet.create({
 });
 
 function sendCode(phoneNumber) {
-fetch(('https://dev.stedi.me/twofactorlogin/' + phoneNumber), {
-  method: 'POST'
+  fetch(('https://dev.stedi.me/twofactorlogin/' + phoneNumber), {
+    method: 'POST'
 });
+}
+
+function checkCode(phoneNumber, oneTimePasscode, props) {
+  fetch('https://dev.stedi.me/twofactorlogin', {
+    method: 'POST',
+    body: JSON.stringify({
+      phoneNumber: phoneNumber, 
+      oneTimePassword: oneTimePasscode,
+    }),
+  })
+  .then(()=>{props.setUserLoggedIn(true)})
 }
 
 
