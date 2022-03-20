@@ -11,9 +11,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import UselessTextInput from "./LoginPage.js";
 
 
-function login() {
-  setUserLoggedIn([true, userLoggedIn])
-}
+
 
 // import Icons from "./Icons";
 const Tab = createMaterialBottomTabNavigator();
@@ -21,6 +19,7 @@ const Tab = createMaterialBottomTabNavigator();
 export default function App() {
 
   const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [email, setEmail] = useState(null);
 
   if(userLoggedIn) {
   return (
@@ -52,7 +51,7 @@ export default function App() {
         />
         <Tab.Screen
           name='Settings'
-          component={SettingsScreen}
+          children={()=><SettingsScreen props={email} />}
           options={{
             tabBarLabel: 'Settings',
             tabBarIcon: ({ color }) => (
@@ -66,7 +65,7 @@ export default function App() {
   } 
 
   else {
-    return (<UselessTextInput setUserLoggedIn={setUserLoggedIn}/>)
+    return (<UselessTextInput setUserLoggedIn={setUserLoggedIn} setEmail={setEmail}/>)
   }
 
 } 

@@ -62,7 +62,18 @@ function checkCode(phoneNumber, oneTimePasscode, props) {
       oneTimePassword: oneTimePasscode,
     }),
   })
-  .then(()=>{props.setUserLoggedIn(true)})
+  .then(response => {
+    const statusCode = response.status;
+    const email = response.text("email-address");
+    if (statusCode == 200) {
+      props.setUserLoggedIn(true);
+      props.setEmail(email);
+    }
+    console.log(statusCode);
+  })
+  .catch(error => {
+    console.log(error);
+  })
 }
 
 
