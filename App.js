@@ -51,7 +51,7 @@ export default function App() {
         />
         <Tab.Screen
           name='Settings'
-          children={()=><SettingsScreen props={email} />}
+          children={()=><SettingsScreen email={email} />}
           options={{
             tabBarLabel: 'Settings',
             tabBarIcon: ({ color }) => (

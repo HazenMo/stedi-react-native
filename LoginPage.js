@@ -57,6 +57,10 @@ function sendCode(phoneNumber) {
 function checkCode(phoneNumber, oneTimePasscode, props) {
   fetch('https://dev.stedi.me/twofactorlogin', {
     method: 'POST',
+    headers: {
+      Accept:"application/text",
+      "Content-Type":"application/text"
+    },
     body: JSON.stringify({
       phoneNumber: phoneNumber, 
       oneTimePassword: oneTimePasscode,
@@ -64,12 +68,28 @@ function checkCode(phoneNumber, oneTimePasscode, props) {
   })
   .then(response => {
     const statusCode = response.status;
-    const email = response.text("email-address");
+    const token = response.text();
     if (statusCode == 200) {
       props.setUserLoggedIn(true);
-      props.setEmail(email);
+      // props.setEmail(email); 
     }
     console.log(statusCode);
+    
+    return token
+  })
+  .then(token => {console.log(token);
+    fetch('https://dev.stedi.me/validate/' + token, {
+      method: 'GET',
+      headers: {
+        Accept:"application/text",
+        "Content-Type":"application/text"
+      }
+    })
+    .then(response2 => {
+    email = response2.text()
+    return email;
+  })
+  .then(email => {props.setEmail(email);})
   })
   .catch(error => {
     console.log(error);
